@@ -20,8 +20,8 @@ def bruteLogin(hostname, passwdFile):
 
 def main():
     parse = optparse.OptionParser('usage%prog -h <hostname> -p <passwdFile>')
-    parse.add_option('-h', dst='hostname', type='string', help='specify a hostname')
-    parse.add_option('-p', dst='passwdFile', type='string', help='specify a password file')
+    parse.add_option('-h', dest='hostname', type='string', help='specify a hostname')
+    parse.add_option('-p', dest='passwdFile', type='string', help='specify a password file')
     (options, args) = parse.parse_args()
     hostname = options.hostname
     bruteLogin(hostname)

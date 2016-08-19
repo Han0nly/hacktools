@@ -12,9 +12,9 @@ def connect(host,user,password,release):
     try:
         s = pxssh.pxssh()
         s.login(host,user,password)
-        print '[+] Password Found: ' + password
+        print ('[+] Password Found: ' + password)
         Found = True
-    except Exception,e:
+    except Exception as e:
         if 'read_nonblocking' in str(e):
             Fails += 1
             time.sleep(5)

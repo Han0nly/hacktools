@@ -7,11 +7,11 @@ def annoLogin(hostname):
         print '\n[*] ' + str(hostname) + ' FTP Anonymous Logon Succeeded'
         ftp.quit()
         return True
-    except Exception,e:
+    except Exception as e:
         print '\n[-] ' + str(hostname) + ' FTP Anonymous Logon Failed'
 def main():
     parse = optparse.OptionParser('usage%prog -H <hostname>')
-    parse.add_option('-H',dst='hostname',type='string',help='specify a hostname')
+    parse.add_option('-H',dest='hostname',type='string',help='specify a hostname')
     (options,args) = parse.parse_args()
     hostname = options.hostname
     annoLogin(hostname)

